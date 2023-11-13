@@ -1,0 +1,115 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Document Search API",
+    "description": "Search documents by query string using vector embeddings",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://127.0.0.1"
+    }
+  ],
+  "paths": {
+    "/search": {
+      "get": {
+        "description": "Search documents by query string using vector embeddings",
+        "operationId": "searchDocuments",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Query string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit number of results",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "filename": {
+                        "type": "string"
+                      },
+                      "chunk_index": {
+                        "type": "integer"
+                      },
+                      "distance": {
+                        "type": "number",
+                        "description": "Distance between query and document vector"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/document": {
+      "get": {
+        "description": "Get document by filename and chunk index",
+        "operationId": "getDocument",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "query",
+            "description": "Filename",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chunk_index",
+            "in": "query",
+            "description": "Chunk index",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
